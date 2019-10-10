@@ -1,0 +1,49 @@
+## mako
+<%page expression_filter="h"/>
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.urls import reverse
+from django.utils.translation import ugettext as _
+from django.conf import settings
+
+from datetime import datetime
+import pytz
+
+from openedx.core.djangoapps.lang_pref.api import footer_language_selector_is_enabled
+from openedx.core.djangolib.markup import HTML, Text
+
+# App that handles subdomain specific branding
+from branding import api as branding_api
+%>
+
+<div class="wrapper wrapper-footer">
+  <footer>
+    <!-- This is super-ugly, don't use it! -->
+    <div style="display: flex;">
+      <div style="padding-right: 20px;">
+        <a id="about1" href="${marketing_link('ABOUT')}">
+          ${_("About")}
+        </a>
+      </div>
+      <div>
+        <a id="contact" href="${marketing_link('CONTACT')}">
+          ${_("Contact")}
+        </a>
+      </div>
+    </div>
+    <div class="colophon">
+      <div class="wrapper-logo">
+        <p>
+          <a href="/">
+            ## this is just a placeholder logo
+            ## feel free to change this logo to your own by replacing "logo.png" with your own logo
+            <img class="footerLogo" src="${branding_api.get_logo_url(is_secure)}" />
+          </a>
+        </p>
+      </div>
+      <p class="copyright">&copy; ${datetime.now(pytz.timezone(settings.TIME_ZONE)).year}
+        ${static.get_platform_name()}.</p>
+      </nav>
+    </div>
+  </footer>
+</div>
